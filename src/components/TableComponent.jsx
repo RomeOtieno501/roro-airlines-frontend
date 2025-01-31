@@ -1,5 +1,4 @@
 import React from 'react';
-import './TableComponent.css';
 
 function TableComponent({ headers, data }) {
   return (

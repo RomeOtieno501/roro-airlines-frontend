@@ -1,26 +1,15 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import HomePage from './pages/HomePage';
-import AirlinesPage from './pages/AirlinesPage';
-import FlightsPage from './pages/FlightsPage';
-import PassengersPage from './pages/PassengersPage';
-import BookingsPage from './pages/BookingsPage';
-import SeatsPage from './pages/SeatsPage';
-import './styles/styles.css';
+import { BrowserRouter } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import AppRoutes from "./routes/Routes";
+import "./styles/styles.css";
+import React from "react";
 
 function App() {
   return (
-    <Router>
+    <React.Fragment>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/airlines" element={<AirlinesPage />} />
-        <Route path="/flights" element={<FlightsPage />} />
-        <Route path="/passengers" element={<PassengersPage />} />
-        <Route path="/bookings" element={<BookingsPage />} />
-        <Route path="/seats" element={<SeatsPage />} />
-      </Routes>
-    </Router>
+      <AppRoutes />
+    </React.Fragment>
   );
 }
 
