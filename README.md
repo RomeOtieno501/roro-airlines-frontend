@@ -29,8 +29,8 @@ Roro Airlines Management System is a full-stack web application designed to faci
 
 ### Clone the Repository
 ```sh
-git clone https://github.com/your-username/your-frontend-repo.git
-cd your-frontend-repo
+git clone git@github.com:RomeOtieno501/roro-airlines-frontend.git
+cd roro-airlines-frontend
 ```
 
 ### Install Dependencies
