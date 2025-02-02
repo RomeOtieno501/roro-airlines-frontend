@@ -24,8 +24,8 @@ function AirlinesPage() {
       })
         .then(response => response.json())
         .then(data => {
-          setAirlines([...airlines, data]); // Update UI
-          setNewAirline({ name: "", country: "" }); // Reset form
+          setAirlines([...airlines, data]); 
+          setNewAirline({ name: "", country: "" });
         })
         .catch(err => console.error("Error adding airline:", err));
     };
@@ -39,8 +39,8 @@ function AirlinesPage() {
       })
         .then(response => response.json())
         .then(updatedAirline => {
-          setAirlines(airlines.map(a => (a.id === id ? updatedAirline : a))); // Update UI
-          setEditingAirline(null); // Reset editing
+          setAirlines(airlines.map(a => (a.id === id ? updatedAirline : a)));
+          setEditingAirline(null);
         })
         .catch(err => console.error("Error updating airline:", err));
     };
@@ -49,7 +49,7 @@ function AirlinesPage() {
     const deleteAirline = (id) => {
       fetch(`https://roro-airlines-full-stack-1.onrender.com/airlines/${id}`, { method: "DELETE" })
         .then(() => {
-          setAirlines(airlines.filter(a => a.id !== id)); // Remove from UI
+          setAirlines(airlines.filter(a => a.id !== id)); 
         })
         .catch(err => console.error("Error deleting airline:", err));
     };
