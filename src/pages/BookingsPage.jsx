@@ -12,7 +12,7 @@ const BookingsPage = () => {
   }, []);
 
   const fetchBookings = () => {
-    fetch("http://127.0.0.1:5555/bookings")
+    fetch("https://roro-airlines-full-stack-1.onrender.com/bookings")
       .then(response => response.json())
       .then(data => setBookings(data))
       .catch(error => console.error(error));
@@ -21,7 +21,7 @@ const BookingsPage = () => {
   // Create Booking
   const handleCreateBooking = (e) => {
     e.preventDefault();
-    fetch("http://127.0.0.1:5555/bookings", {
+    fetch("https://roro-airlines-full-stack-1.onrender.com/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newBooking),
@@ -37,7 +37,7 @@ const BookingsPage = () => {
   // Update Booking
   const handleUpdateBooking = (e) => {
     e.preventDefault();
-    fetch(`http://127.0.0.1:5555/bookings/${editingBooking.id}`, {
+    fetch(`https://roro-airlines-full-stack-1.onrender.com/bookings/${editingBooking.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editingBooking),
@@ -52,7 +52,7 @@ const BookingsPage = () => {
 
   // Delete Booking
   const handleDeleteBooking = (id) => {
-    fetch(`http://127.0.0.1:5555/bookings/${id}`, { method: "DELETE" })
+    fetch(`https://roro-airlines-full-stack-1.onrender.com/bookings/${id}`, { method: "DELETE" })
       .then(() => fetchBookings())
       .catch(error => console.error(error));
   };

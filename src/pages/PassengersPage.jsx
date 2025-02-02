@@ -12,7 +12,7 @@ function PassengersPage() {
   }, []);
 
   const fetchPassengers = () => {
-    fetch("http://127.0.0.1:5555/passengers")
+    fetch("https://roro-airlines-full-stack-1.onrender.com/passengers")
       .then((response) => response.json())
       .then((data) => setPassengers(data))
       .catch((err) => console.error(err));
@@ -20,7 +20,7 @@ function PassengersPage() {
 
   // Create new passenger
   const createPassenger = () => {
-    fetch("http://127.0.0.1:5555/passengers", {
+    fetch("https://roro-airlines-full-stack-1.onrender.com/passengers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newPassenger),
@@ -35,7 +35,7 @@ function PassengersPage() {
 
   // Update passenger
   const updatePassenger = () => {
-    fetch(`http://127.0.0.1:5555/passengers/${editingPassenger.id}`, {
+    fetch(`https://roro-airlines-full-stack-1.onrender.com/passengers/${editingPassenger.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editingPassenger),
@@ -50,7 +50,7 @@ function PassengersPage() {
 
   // Delete passenger
   const deletePassenger = (id) => {
-    fetch(`http://127.0.0.1:5555/passengers/${id}`, {
+    fetch(`https://roro-airlines-full-stack-1.onrender.com/passengers/${id}`, {
       method: "DELETE",
     })
       .then(() => fetchPassengers())

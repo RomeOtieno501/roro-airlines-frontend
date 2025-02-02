@@ -7,115 +7,71 @@ function SeatsPage() {
     flight_id: "",
     seat_number: "",
     is_booked: false,
-    booking_id: "",
+    booking_id: null,
   });
-  const [editingSeat, setEditingSeat] = useState(null);
 
-  // Fetch all seats
   useEffect(() => {
-    fetchSeats();
-  }, []);
-
-  const fetchSeats = () => {
-    fetch("http://127.0.0.1:5555/seats")
+    fetch("https://roro-airlines-full-stack-1.onrender.com/seats")
       .then((response) => response.json())
       .then((data) => setSeats(data))
-      .catch((err) => console.error("Error fetching seats:", err));
-  };
+      .catch((err) => console.error(err));
+  }, []);
 
-  // Handle form input changes
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission for adding or updating a seat
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (editingSeat) {
-      handleUpdateSeat(editingSeat.id);
-    } else {
-      handleAddSeat();
-    }
-  };
-
-  // Add a new seat
-  const handleAddSeat = () => {
-    fetch("http://127.0.0.1:5555/seats", {
+    fetch("https://roro-airlines-full-stack-1.onrender.com/seats", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
       .then((response) => response.json())
-      .then(() => {
-        fetchSeats();
-        setFormData({ flight_id: "", seat_number: "", is_booked: false, booking_id: "" });
-      })
-      .catch((err) => console.error("Error adding seat:", err));
+      .then((newSeat) => setSeats([...seats, newSeat]))
+      .catch((err) => console.error(err));
   };
 
-  // Edit seat
-  const handleEditSeat = (seat) => {
-    setEditingSeat(seat);
-    setFormData({
-      flight_id: seat.flight_id,
-      seat_number: seat.seat_number,
-      is_booked: seat.is_booked,
-      booking_id: seat.booking_id || "",
-    });
-  };
-
-  // Update seat
-  const handleUpdateSeat = (id) => {
-    fetch(`http://127.0.0.1:5555/seats/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then(() => {
-        fetchSeats();
-        setEditingSeat(null);
-        setFormData({ flight_id: "", seat_number: "", is_booked: false, booking_id: "" });
-      })
-      .catch((err) => console.error("Error updating seat:", err));
-  };
-
-  // Delete seat
-  const handleDeleteSeat = (id) => {
-    fetch(`http://127.0.0.1:5555/seats/${id}`, { method: "DELETE" })
-      .then(() => fetchSeats())
-      .catch((err) => console.error("Error deleting seat:", err));
+  const handleDelete = (id) => {
+    fetch(`https://roro-airlines-full-stack-1.onrender.com/seats/${id}`, { method: "DELETE" })
+      .then(() => setSeats(seats.filter((seat) => seat.id !== id)))
+      .catch((err) => console.error(err));
   };
 
   return (
     <div className="page-container">
       <h1>Seats</h1>
 
-      {/* Seat Form */}
-      <form onSubmit={handleSubmit} className="crud-form">
-        <input type="number" name="flight_id" placeholder="Flight ID" value={formData.flight_id} onChange={handleChange} required />
-        <input type="text" name="seat_number" placeholder="Seat Number" value={formData.seat_number} onChange={handleChange} required />
-        <label>
-          <input type="checkbox" name="is_booked" checked={formData.is_booked} onChange={handleChange} /> Is Booked?
-        </label>
-        <input type="number" name="booking_id" placeholder="Booking ID (optional)" value={formData.booking_id} onChange={handleChange} />
-        <button type="submit">{editingSeat ? "Update Seat" : "Add Seat"}</button>
+      {/* Form for Adding New Seat */}
+      <form onSubmit={handleSubmit}>
+        <input type="number" name="flight_id" placeholder="Flight ID" onChange={handleChange} required />
+        <input type="text" name="seat_number" placeholder="Seat Number" onChange={handleChange} required />
+        <select name="is_booked" onChange={handleChange}>
+          <option value="false">Not Booked</option>
+          <option value="true">Booked</option>
+        </select>
+        <input type="number" name="booking_id" placeholder="Booking ID (Optional)" onChange={handleChange} />
+        <button className="add-btn" type="submit">Add Seat</button>
       </form>
 
-      {/* Seats Table */}
+      {/* TableComponent for Displaying Seats */}
       <TableComponent
         headers={["ID", "Flight ID", "Seat Number", "Is Booked", "Booking ID", "Actions"]}
-        data={seats}
-        actions={(seat) => (
-          <>
-            <button className="edit-btn" onClick={() => handleEditSeat(seat)}>Edit</button>
-            <button className="delete-btn" onClick={() => handleDeleteSeat(seat.id)}>Delete</button>
-          </>
-        )}
+        data={seats.map((seat) => ({
+          id: seat.id,
+          flight_id: seat.flight_id,
+          seat_number: seat.seat_number,
+          is_booked: seat.is_booked ? "Yes" : "No",
+          booking_id: seat.booking_id || "N/A",
+          actions: (
+            <div className="action-btns">
+              <button className="edit-btn">Edit</button>
+              <button className="delete-btn" onClick={() => handleDelete(seat.id)}>Delete</button>
+            </div>
+          ),
+        }))}
       />
     </div>
   );

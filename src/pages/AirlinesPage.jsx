@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
+import "../styles/styles.css";
 import TableComponent from '../components/TableComponent';
 
 function AirlinesPage() {
@@ -9,7 +9,7 @@ function AirlinesPage() {
   
     // Fetch airlines from backend
     useEffect(() => {
-      fetch("http://127.0.0.1:5555/airlines")
+      fetch("https://roro-airlines-full-stack-1.onrender.com/airlines")
         .then(response => response.json())
         .then(data => setAirlines(data))
         .catch(err => console.error("Error fetching airlines:", err));
@@ -17,7 +17,7 @@ function AirlinesPage() {
   
     // Add a new airline
     const addAirline = () => {
-      fetch("http://127.0.0.1:5555/airlines", {
+      fetch("https://roro-airlines-full-stack-1.onrender.com/airlines", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAirline),
@@ -32,7 +32,7 @@ function AirlinesPage() {
   
     // Update an airline
     const updateAirline = (id) => {
-      fetch(`http://127.0.0.1:5555/airlines/${id}`, {
+      fetch(`https://roro-airlines-full-stack-1.onrender.com/airlines/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editingAirline),
@@ -47,7 +47,7 @@ function AirlinesPage() {
   
     // Delete an airline
     const deleteAirline = (id) => {
-      fetch(`http://127.0.0.1:5555/airlines/${id}`, { method: "DELETE" })
+      fetch(`https://roro-airlines-full-stack-1.onrender.com/airlines/${id}`, { method: "DELETE" })
         .then(() => {
           setAirlines(airlines.filter(a => a.id !== id)); // Remove from UI
         })
